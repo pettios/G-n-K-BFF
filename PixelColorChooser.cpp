@@ -1,14 +1,21 @@
-//GJP
-//2016021
+/* Gregory J. Petty and Kiron Mateti
 
-//compiles with: g++ PixelColorChooser.cpp -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_legacy -lopencv_ml -lopencv_objdetect -o pixelColorChooser
+Created 2016-02-01
+
+Updated 2016-06-22: Added webcam if no arguments provided
+
+On Ubuntu XX.XXX.XXX. Compiles with: g++ PixelColorChooser.cpp -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_legacy -lopencv_ml -lopencv_objdetect -o pixelColorChooser
+ 
+On Windows 10, Microsoft Visual Studio Community 2015 Version 14.0 compiles with prebuilt OpenCV libraries, with opencv_world310d.lib
+
+*/
 
 #include "opencv2/core/core.hpp"
 #include "opencv2/opencv.hpp"
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/ml/ml.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
-#include "opencv2/gpu/gpu.hpp"
+//#include "opencv2/gpu/gpu.hpp" // Currently do not have gpu functionality
 #include <stdio.h>
 #include <iostream>
 #include <string> //It's unlikely that I use all of these.
@@ -27,7 +34,23 @@ Point mp;
 //Main
 int main(int argc, char** argv){
 	
-	frame=imread(argv[1], CV_LOAD_IMAGE_COLOR);
+	if (argc != 2) {
+
+		//Mat cameraFrame;
+		VideoCapture stream1(0);   //0 is the id of video device.0 if you have only one camera.
+
+		if (!stream1.isOpened()) { //check if video device has been initialised
+			cout << "cannot open camera";
+
+			return -1;
+		}
+
+		stream1.read(frame);
+	}
+	else {
+		frame = imread(argv[1], CV_LOAD_IMAGE_COLOR);
+	}
+	
 	frame2 =frame.clone();
 		
 

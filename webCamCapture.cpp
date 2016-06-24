@@ -35,6 +35,8 @@ int main(){
 	cin >> filename;
 	imwrite(filename,frame);
 
+	cout <<"Complete"<<endl; // <-- This has been added to test GitHub
+
 	
 	return 0;
 }

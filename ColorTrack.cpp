@@ -1,8 +1,12 @@
-//GJP
+
 //20160626
+//Gregory J Petty and Kiron NMI Mateti
+
 
 //Goal: (Completed!)
-//View Webcam, have 3 slides (BGR tolerance (+/-)), mouse click picks color center point (in HSV), track color, reclick on new point to change color center point. Works well 
+//View Webcam, have 3 slides (BGR tolerance (+/-)), mouse click picks color center point (in HSV), track color, reclick on new point to change color center point. Works well with a tennis ball or bright color lacrosse ball.
+
+//Basically is the C++ version of http://www.pyimagesearch.com/2015/09/14/ball-tracking-with-opencv/
 
 //compiles with: g++ ColorTrack.cpp -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_legacy -lopencv_ml -lopencv_objdetect -o colorTrack
 

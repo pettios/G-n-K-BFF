@@ -4,7 +4,7 @@ Created 2016-02-01
 
 Updated 2016-06-22: Added webcam if no arguments provided
 
-On Ubuntu XX.XXX.XXX. Compiles with: g++ PixelColorChooser.cpp -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_legacy -lopencv_ml -lopencv_objdetect -o pixelColorChooser
+On Ubuntu 14.04. Compiles with: g++ PixelColorChooser.cpp -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_legacy -lopencv_ml -lopencv_objdetect -o pixelColorChooser
  
 On Windows 10, Microsoft Visual Studio Community 2015 Version 14.0 compiles with prebuilt OpenCV libraries, with opencv_world310d.lib
 

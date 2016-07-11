@@ -13,5 +13,6 @@ This project will enable tracking of an object selected by an operator.
 
 Methods available: 
 - centroid tracker
+- TODO: corr tracker
 
 

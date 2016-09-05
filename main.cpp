@@ -1,31 +1,56 @@
-//#include <cstdio>
+#include <cstdio>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
 #include <string>
 #include <chrono>
-#include "videoFeed.h"
-
-using namespace cv;
-using namespace std;
-using namespace std::chrono;
+#include <unistd.h>
+#include "VideoFeed.h"
 
 int main(int argc, char** argv)
 {
-	VideoFeed visFeed("C:\\Users\\kiron\\Downloads\\temp\\MSDMI\\DAY_VIS_MSDMI.mp4");
-	VideoFeed swirFeed("C:\\Users\\kiron\\Downloads\\temp\\MSDMI\\DAY_SWIR_MSDMI.mp4");
-	VideoFeed mwirFeed("C:\\Users\\kiron\\Downloads\\temp\\MSDMI\\DAY_MWIR_MSDMI.mp4");
-	bool debugMode = false;
+	std::string pathname = "";
+	int debugMode = 0;
 	int Nframes = 300;
-	bool displayFeeds = false;
+	int displayFeeds = 0;
+	int c;
+		
+	// See http://www.gnu.org/software/libc/manual/html_node/Example-of-Getopt.html
+	while ((c = getopt (argc, argv, "dvp:")) != -1)
+		switch (c)
+		{
+			case 'd':
+				debugMode = 1;
+				break;
+			case 'v':
+				displayFeeds = 1;
+				break;
+			case 'p':
+				pathname = optarg;
+				break;
+			case '?':
+				if (optopt == 'p')
+					fprintf (stderr, "Option -%c requires an pathname to the MSDMI folder.\n", optopt);
+				else if (isprint (optopt))
+					fprintf (stderr, "Unknown option `-%c'.\n", optopt);
+				else
+					fprintf (stderr,
+							"Unknown option character `\\x%x'.\n",
+							optopt);
+				return 1;
+			default:
+				abort ();
+		}
+
+	VideoFeed visFeed(pathname + "DAY_VIS_MSDMI.mp4");
+	VideoFeed swirFeed(pathname + "DAY_SWIR_MSDMI.mp4");
+	VideoFeed mwirFeed(pathname + "DAY_MWIR_MSDMI.mp4");
 
 	visFeed.debugMode = debugMode;
 	swirFeed.debugMode = debugMode;
 	mwirFeed.debugMode = debugMode;
-	
-	
 
-	high_resolution_clock::time_point t1 = high_resolution_clock::now();
+	std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
 	for (int iFrame = 0; iFrame < Nframes; iFrame++)
 	{
@@ -34,18 +59,18 @@ int main(int argc, char** argv)
 		mwirFeed.step();
 		if (displayFeeds)
 		{
-			imshow("VIS", visFeed.frame);
-			imshow("SWIR", swirFeed.frame);
-			imshow("MWIR", mwirFeed.frame);
-			waitKey(20); // waits to display frame
+			cv::imshow("VIS", visFeed.frame);
+			cv::imshow("SWIR", swirFeed.frame);
+			cv::imshow("MWIR", mwirFeed.frame);
+			cv::waitKey(1); // waits to display frame
 		}
 	}
 
-	high_resolution_clock::time_point t2 = high_resolution_clock::now();
+	std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
 
-	auto duration = duration_cast<milliseconds>(t2 - t1).count();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
 
-	cout << "Average frame rate for " << Nframes << " frames is " << (double) Nframes / (double) duration * 1000.0 << " fps" << endl;
+	std::cout << "Average frame rate for " << Nframes << " frames is " << (double) Nframes / (double) duration * 1000 << " fps" << std::endl;
 
 	return 0;
 
